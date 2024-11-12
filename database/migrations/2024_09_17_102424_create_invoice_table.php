@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('client', function (Blueprint $table) {
+        Schema::create('invoice', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->string('lembaga');
-            $table->string('hp');
-            $table->text('alamat');
+            $table->foreignId('client_id')->constrained('client');
+            $table->date('tanggal');
+            $table->json('items');
+            $table->longText('keterangan')
+                ->nullable();
+            $table->timestamps();
         });
     }
 
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('client');
+        Schema::dropIfExists('invoice');
     }
 };
