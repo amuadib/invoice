@@ -122,9 +122,16 @@
     <header class="container">
         <a href="" class="logo">INVOICE</a>
         <nav>
-            <a href="{{ url('admin') }}">Dashboard</a>
+            @auth
+                <a href="{{ url('admin') }}">Dashboard</a>
+            @endauth
             <a href="#tentang">Tentang</a>
-            <a href="#kontak">Kontak</a>
+            @auth
+                <a href="#" id="btn-logout">Logout</a>
+                <form action="{{ url('/admin/logout') }}" method="post" id="form-logout">
+                    {{ csrf_field() }}
+                </form>
+            @endauth
         </nav>
     </header>
     <div class="container">
@@ -144,6 +151,12 @@
             @endauth
         </div>
     </div>
+    <script>
+        var form = document.getElementById("form-logout");
+        document.getElementById("btn-logout").addEventListener("click", function() {
+            form.submit();
+        });
+    </script>
 </body>
 
 </html>
