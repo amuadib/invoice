@@ -41,6 +41,7 @@ class InvoiceResource extends Resource
                         TextInput::make('keterangan')
                             ->columnSpan(5),
                         TextInput::make('jumlah')
+                            ->default(1)
                             ->numeric()
                             ->required()
                             ->columnSpan(1),
@@ -53,6 +54,8 @@ class InvoiceResource extends Resource
                     ->required()
                     ->columnSpanFull(),
                 Forms\Components\Select::make('status')
+                    ->default('Unpaid')
+                    ->required()
                     ->options(['Unpaid' => 'Unpaid', 'Paid' => 'Paid']),
                 Forms\Components\Textarea::make('keterangan')
                     ->columnSpanFull(),
