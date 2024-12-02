@@ -7,6 +7,8 @@ use App\Filament\Resources\InvoiceResource\RelationManagers;
 use App\Models\Client;
 use App\Models\Invoice;
 use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -15,6 +17,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Get;
 
 class InvoiceResource extends Resource
 {
@@ -26,11 +29,11 @@ class InvoiceResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('client_id')
+                Select::make('client_id')
                     ->required()
                     ->relationship(name: 'client', titleAttribute: 'nama')
                     ->getOptionLabelFromRecordUsing(fn(Client $record) => "{$record->nama} - {$record->lembaga}"),
-                Forms\Components\DatePicker::make('tanggal')
+                DatePicker::make('tanggal')
                     ->default(date('Y-m-d'))
                     ->required(),
                 Forms\Components\Repeater::make('items')
@@ -53,10 +56,18 @@ class InvoiceResource extends Resource
                     ->columns(12)
                     ->required()
                     ->columnSpanFull(),
-                Forms\Components\Select::make('status')
+                Select::make('status')
                     ->default('Unpaid')
+                    ->live()
                     ->required()
                     ->options(['Unpaid' => 'Unpaid', 'Paid' => 'Paid']),
+                DatePicker::make('tanggal_bayar')
+                    ->visible(fn(Get $get): bool => $get('status') == 'Paid'),
+                Forms\Components\FileUpload::make('bukti_bayar')
+                    ->image()
+                    ->downloadable()
+                    ->visible(fn(Get $get): bool => $get('status') == 'Paid')
+                    ->columnSpanFull(),
                 Forms\Components\Textarea::make('keterangan')
                     ->columnSpanFull(),
             ]);
