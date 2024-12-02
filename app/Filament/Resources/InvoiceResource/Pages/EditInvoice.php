@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\InvoiceResource\Pages;
 
 use App\Filament\Resources\InvoiceResource;
+use App\Models\Invoice;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
@@ -15,6 +16,10 @@ class EditInvoice extends EditRecord
         return [
             // Actions\ViewAction::make(),
             // Actions\DeleteAction::make(),
+            Actions\Action::make('Cetak')
+                ->color('info')
+                ->icon('heroicon-o-printer')
+                ->url(fn(Invoice $record) => '/cetak/invoice/' . $record->id),
         ];
     }
 
