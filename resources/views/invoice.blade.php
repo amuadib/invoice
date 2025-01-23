@@ -51,7 +51,7 @@
                     <div class="tm_invoice_head tm_top_head tm_mb20">
                         <div class="tm_invoice_left">
                             <div class="tm_logo">
-                                <img src="{{ asset('logo.svg') }}" alt="Logo">
+                                <img src="{{ asset('logo.png') }}" alt="Logo">
                             </div>
                             <div style="font-size:1.5em;color:#fe6006;font-weight:bold;">
                                 {{ $user->name }}
